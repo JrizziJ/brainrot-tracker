@@ -6,8 +6,8 @@ module.exports = async (request, response) => {
 
   try {
     // 1. Fetch through the proxy to bypass the firewall
-    const targetUrl = 'https://crazygames.com';
-    const gameShopResponse = await fetch('https://allorigins.win' + encodeURIComponent(targetUrl));
+    const targetUrl = 'https:/api.crazygames.com/v1/games/brainrot-arena-online/shop';
+    const gameShopResponse = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl));
     
     // 2. Decode the proxy's text contents into a real item list
     const proxyData = await gameShopResponse.json();
