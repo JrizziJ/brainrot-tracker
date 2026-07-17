@@ -1,15 +1,19 @@
 module.exports = async (request, response) => {
-  // Pull authorization header from Vercel's edge network request
   const authHeader = request.headers['authorization'];
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return response.status(401).json({ error: 'Unauthorized request' });
   }
 
   try {
-    // Queries CrazyGames public game manifest API for Brainrot Arena active state parameters
-       const gameShopResponse = await fetch('https://allorigins.win' + encodeURIComponent('https://crazygames.com'));
-    const activeInventory = await gameShopResponse.json(); 
+    // 1. Fetch through the proxy to bypass the firewall
+    const targetUrl = 'https://crazygames.com';
+    const gameShopResponse = await fetch('https://allorigins.win' + encodeURIComponent(targetUrl));
+    
+    // 2. Decode the proxy's text contents into a real item list
+    const proxyData = await gameShopResponse.json();
+    const activeInventory = JSON.parse(proxyData.contents); 
 
+    // 3. Scan the shop rotation for your items
     const TRACKED_ITEMS = ["Black Hole", "Vines", "Rolling Snowball", "Snowman Guardian"];
     const matchingItems = activeInventory.items.filter(item => TRACKED_ITEMS.includes(item.name));
 
@@ -20,6 +24,7 @@ module.exports = async (request, response) => {
         inline: true
       }));
 
+      // 4. Send the alert layout straight to Discord
       await fetch(process.env.DISCORD_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
