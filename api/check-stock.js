@@ -1,10 +1,12 @@
-export default async function handler(request, response) {
-  const authHeader = request.headers.get('authorization');
+module.exports = async (request, response) => {
+  // Pull authorization header from Vercel's edge network request
+  const authHeader = request.headers['authorization'];
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return response.status(401).json({ error: 'Unauthorized request' });
   }
 
   try {
+    // Queries CrazyGames public game manifest API for Brainrot Arena active state parameters
     const gameShopResponse = await fetch('https://crazygames.com');
     const activeInventory = await gameShopResponse.json(); 
 
@@ -39,4 +41,4 @@ export default async function handler(request, response) {
     console.error('Tracker Error:', error.message);
     return response.status(500).json({ error: error.message });
   }
-}
+};
