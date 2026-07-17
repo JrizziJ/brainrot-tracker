@@ -7,7 +7,7 @@ module.exports = async (request, response) => {
   try {
     // 1. Fetch through the proxy to bypass the firewall
     const targetUrl = 'https://api.crazygames.com/v1/games/brainrot-arena-online/shop';
-   const gameShopResponse = await fetch('https://cors-anywhere.herokuapp.com/' + targetUrl, { headers: { 'Origin': 'https://vercel.com' } });
+       const gameShopResponse = await fetch('https://corsproxy.io/?url=' + encodeURIComponent(targetUrl));
 
 const activeInventory = await gameShopResponse.json();
     
