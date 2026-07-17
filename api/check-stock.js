@@ -6,12 +6,11 @@ module.exports = async (request, response) => {
 
   try {
     // 1. Fetch through the proxy to bypass the firewall
-    const targetUrl = 'https:/api.crazygames.com/v1/games/brainrot-arena-online/shop';
-    const gameShopResponse = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl));
+    const targetUrl = 'https://api.crazygames.com/v1/games/brainrot-arena-online/shop';
+   const gameShopResponse = await fetch('https://cors-anywhere.herokuapp.com/' + targetUrl, { headers: { 'Origin': 'https://vercel.com' } });
+
+const activeInventory = await gameShopResponse.json();
     
-    // 2. Decode the proxy's text contents into a real item list
-    const proxyData = await gameShopResponse.json();
-    const activeInventory = JSON.parse(proxyData.contents); 
 
     // 3. Scan the shop rotation for your items
     const TRACKED_ITEMS = ["Black Hole", "Vines", "Rolling Snowball", "Snowman Guardian"];
