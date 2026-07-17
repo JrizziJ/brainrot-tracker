@@ -16,7 +16,7 @@ const activeInventory = await gameShopResponse.json();
     const TRACKED_ITEMS = ["Black Hole", "Vines", "Rolling Snowball", "Snowman Guardian", "Gold", "Coins", "Default"];
 
 const itemsList = activeInventory.items || activeInventory || [];
-const matchingItems = Array.isArray(itemsList) ? itemsList.filter(item => item && TRACKED_ITEMS.includes(item.name)) : [];
+const matchingItems = Array.isArray(itemsList) ? itemsList.slice(0, 2) : [];
 
 
     if (matchingItems.length > 0) {
