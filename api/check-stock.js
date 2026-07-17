@@ -13,7 +13,8 @@ const activeInventory = await gameShopResponse.json();
     
 
     // 3. Scan the shop rotation for your items
-    const TRACKED_ITEMS = ["Black Hole", "Vines", "Rolling Snowball", "Snowman Guardian"];
+    const TRACKED_ITEMS = ["Black Hole", "Vines", "Rolling Snowball", "Snowman Guardian", "Gold", "Coins", "Default"];
+
 const itemsList = activeInventory.items || activeInventory || [];
 const matchingItems = Array.isArray(itemsList) ? itemsList.filter(item => item && TRACKED_ITEMS.includes(item.name)) : [];
 
