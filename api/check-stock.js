@@ -7,7 +7,7 @@ module.exports = async (request, response) => {
 
   try {
     // Queries CrazyGames public game manifest API for Brainrot Arena active state parameters
-    const gameShopResponse = await fetch('https://crazygames.com');
+       const gameShopResponse = await fetch('https://allorigins.win' + encodeURIComponent('https://crazygames.com'));
     const activeInventory = await gameShopResponse.json(); 
 
     const TRACKED_ITEMS = ["Black Hole", "Vines", "Rolling Snowball", "Snowman Guardian"];
