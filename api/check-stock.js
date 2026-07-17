@@ -19,12 +19,12 @@ const itemsList = activeInventory.items || activeInventory || [];
 const matchingItems = Array.isArray(itemsList) ? itemsList.slice(0, 2) : [];
 
 
-    if (true) {
-         const fields = [{
-        name: `🚨 Test Drop Active!`,
-        value: `Rarity: High-Tier | Price: Tracking Operational`,
-        inline: true
-    }];
+        if (matchingItems.length > 0) {
+        const fields = matchingItems.map(item => ({
+            name: `🔮 ${item.name}`,
+            value: `Rarity: High-Tier | Cost: ${item.cost || 'Gold'}`,
+            inline: true
+        }));
 
       // 4. Send the alert layout straight to Discord
       await fetch(process.env.DISCORD_WEBHOOK_URL, {
